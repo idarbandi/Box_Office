@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
-from Box_office.local_setting import SECRET_KEY
+from Box_office.local_setting import *
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -34,7 +34,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'MovieCrawl.apps.moviecrawlconfig'
+    'MovieCrawl.apps.MoviecrawlConfig'
 ]
 
 MIDDLEWARE = [
@@ -73,8 +73,12 @@ WSGI_APPLICATION = 'Box_office.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': db_engine,
+        'NAME': db_name,
+        'USER': db_user,
+        'HOST': db_host,
+        'PASSWORD': db_password,
+        'PORT': db_port,
     }
 }
 
