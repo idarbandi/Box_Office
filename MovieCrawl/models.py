@@ -52,7 +52,6 @@ class Movie(models.Model):
     def __str__(self):
         return self.name
 
-
 class DirMovie(models.Model):
     dir_id = models.ForeignKey(Director, on_delete=models.PROTECT, related_name='directors')
     movie_id = models.ForeignKey(Movie, on_delete=models.PROTECT, related_name='directorsmovies')
