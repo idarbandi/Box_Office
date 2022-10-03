@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from transactions.models import transaction
 
 
 def trans(request):
-    return HttpResponse("")
+    tr = transaction.calculate()
+    return HttpResponse(f"{tr}")

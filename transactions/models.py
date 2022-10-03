@@ -16,9 +16,9 @@ class transaction(models.Model):
         (CREDIT, "Credit")
     ]
 
-    user = models.ForeignKey(User, on_delete=models.PROTECT, related_name='user_trans')
+    user = models.ForeignKey(User, related_name='user_trans', on_delete=models.RESTRICT)
     type = models.PositiveIntegerField(choices=trans_types, default=CREDIT)
-    amount = models.IntegerField(null=True)
+    amount = models.BigIntegerField()
     updateDate = models.DateTimeField(default=JalaliDatetime.today)
 
     def __str__(self):
@@ -26,11 +26,13 @@ class transaction(models.Model):
 
     @classmethod
     def calculate(cls):
-        pos_transaction = Sum('user_trans').filter(Q(transaction__type=1))
-        neg_transaction = Sum('user_trans').filter(Q(transaction__type__in=[2, 3]))
-        user = User.objects.all().aggregate(all_transactions=Count('user_trans'),
-                                            balance=Coalesce(pos_transaction) - Coalesce(neg_transaction))
-        return user
+        pos = Sum('user_trans__amount', filter=Q(user_trans__type=1))
+        neg = Sum('user_trans__amount', filter=Q(user_trans__type__in=[2, 3]))
+        users = User.objects.all().annotate(total=Count('user_trans'), balance=Coalesce(pos, 0) - Coalesce(neg, 0))
+        for usr in users:
+            final_balance = f"{usr.total}, {usr.balance}"
+        return final_balance
+
 
 
 class UserBalance(models.Model):
