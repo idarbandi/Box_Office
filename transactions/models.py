@@ -20,7 +20,7 @@ class transaction(models.Model):
     updateDate = models.DateTimeField(default=JalaliDatetime.today)
 
     def __str__(self):
-        return ','.join(f"\t{self.user},\t{self.type}\t{self.amount}")
+        return ','.join(f"\t{self.user},\t{self.__get.type._display}\t{self.amount}")
 
 
 class UserBalance(models.Model):

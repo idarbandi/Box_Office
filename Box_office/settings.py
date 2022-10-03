@@ -34,7 +34,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'MovieCrawl.apps.MoviecrawlConfig'
+    'MovieCrawl.apps.MoviecrawlConfig',
+    'transactions.apps.TransactionsConfig'
 ]
 
 MIDDLEWARE = [

@@ -21,5 +21,6 @@ from MovieCrawl.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('MovieCrawl/', include('MovieCrawl.urls'))
+    path('MovieCrawl/', include('MovieCrawl.urls')),
+    path('user/', include('transactions.urls'))
 ]
