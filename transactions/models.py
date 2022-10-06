@@ -1,7 +1,9 @@
+import datetime
+
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.functions import Coalesce
-from khayyam.jalali_datetime import JalaliDatetime
+from khayyam.jalali_datetime import JalaliDatetime, time
 from django.db.models import Sum, Count, Q
 
 
@@ -47,7 +49,24 @@ class UserBalance(models.Model):
     balance = models.FloatField(null=True)
     moment = models.DateTimeField(auto_now_add=JalaliDatetime.now)
 
+    @classmethod
+    def record_balance(cls, user):
+        instance = cls.objects.create(user=user,
+                                      balance=transaction.calculate_user_balance(user))
+        return instance
+
+
+class Transfer(models.Model):
+    receiver_node = models.OneToOneField(User, related_name='receiver', on_delete=models.RESTRICT)
+    sender_node = models.ForeignKey(User, related_name='sender', on_delete=models.RESTRICT)
 
     @classmethod
-    def record_balance(cls):
-        bal = transaction.calculate()
+    def transfer_in_action(cls, sender, receiver, amount):
+        if transaction.calculate_user_balance(sender) < amount:
+            return "Not Enough Credit"
+        else:
+            sent = transaction.objects.create(user=sender, type=transaction.TRANSFER_SENT, amount=amount)
+            received = transaction.objects.create(user=receiver, type=transaction.TRANSFER_RECEIVE, amount=amount)
+            instance = cls.objects.create(receiver_node=received, sender_node=sent)
+
+        return instance
