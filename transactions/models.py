@@ -3,8 +3,10 @@ import datetime
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.functions import Coalesce
-from khayyam.jalali_datetime import JalaliDatetime, time
+from khayyam.jalali_datetime import JalaliDatetime
 from django.db.models import Sum, Count, Q
+
+import transactions
 
 
 class transaction(models.Model):
@@ -21,8 +23,8 @@ class transaction(models.Model):
     ]
     user = models.ForeignKey(User, related_name='user_trans', on_delete=models.RESTRICT)
     type = models.PositiveIntegerField(choices=trans_types, default=CREDIT)
-    amount = models.BigIntegerField()
-    updateDate = models.DateTimeField(default=JalaliDatetime.today)
+    amount = models.BigIntegerField(null=True)
+    updateDate = models.DateTimeField(default=JalaliDatetime.now)
 
     def __str__(self):
         return f"\t{self.user},\t{self.get_type_display()}\t{self.amount}"
@@ -57,16 +59,41 @@ class UserBalance(models.Model):
 
 
 class Transfer(models.Model):
-    receiver_node = models.OneToOneField(User, related_name='receiver', on_delete=models.RESTRICT)
-    sender_node = models.ForeignKey(User, related_name='sender', on_delete=models.RESTRICT)
+    sender_node = models.ForeignKey(transaction, related_name='sender', on_delete=models.RESTRICT)
+    receiver_node = models.OneToOneField(transaction, related_name='receiver', on_delete=models.RESTRICT)
 
     @classmethod
     def transfer_in_action(cls, sender, receiver, amount):
         if transaction.calculate_user_balance(sender) < amount:
             return "Not Enough Credit"
         else:
-            sent = transaction.objects.create(user=sender, type=transaction.TRANSFER_SENT, amount=amount)
-            received = transaction.objects.create(user=receiver, type=transaction.TRANSFER_RECEIVE, amount=amount)
-            instance = cls.objects.create(receiver_node=received, sender_node=sent)
+            with transactions.atomic():
+                sent = transaction.objects.create(user=sender, type=transaction.TRANSFER_SENT, amount=amount,
+                                                  updateDate=str(JalaliDatetime.today()))
+                received = transaction.objects.create(user=receiver, type=transaction.TRANSFER_RECEIVE, amount=amount,
+                                                      updateDate=str(JalaliDatetime.today()))
+                instance = cls.objects.create(receiver_node=received, sender_node=sent)
+            return instance
 
-        return instance
+
+class Score(models.Model):
+    user = models.ForeignKey(User, related_name='user_score', on_delete=models.CASCADE)
+    score = models.FloatField(null=True)
+
+    @classmethod
+    def calculate_user_score(cls, user, record=True):
+        instance = cls.objects.create(user=user, score=cls.user_score(user))
+        if record:
+            return instance
+        print(f"User {user} has {instance.get('score')} scores")
+
+    @classmethod
+    def user_score(cls, user):
+        pos = Sum('amount', filter=Q(type__in=[1, 3]))
+        neg = Sum('amount', filter=Q(type__in=[2, 4]))
+        scoreboard = user.user_trans.aggregate(score=Coalesce(pos * 20, 0) + Coalesce(neg * 50, 0))
+        return scoreboard.get('score', 0)
+
+    @classmethod
+    def user_score_history(cls, user):
+        pass
