@@ -52,6 +52,10 @@ class Movie(models.Model):
     def __str__(self):
         return self.name
 
+    @property
+    def distributer_by_priority(self):
+        return self.distributer.all().order_by('download_rate').first()
+
 
 class DirMovie(models.Model):
     dir_id = models.ForeignKey(Director, on_delete=models.PROTECT, related_name='directors')
@@ -63,7 +67,7 @@ class DirMovie(models.Model):
 
 class ActorMovie(models.Model):
     actor_id = models.ForeignKey(Actor, on_delete=models.PROTECT, related_name='moviesactors')
-    movie_id = models.ForeignKey(Movie, on_delete=models.PROTECT, related_name='atorsmovies')
+    movie_id = models.ForeignKey(Movie, on_delete=models.PROTECT, related_name='actorsmovies')
 
     def __str__(self):
         return f"{self.actor_id} , {self.movie_id}"
@@ -75,3 +79,4 @@ class GenreMovie(models.Model):
 
     def __str__(self):
         return f"{self.genre_id} , {self.movie_id}"
+

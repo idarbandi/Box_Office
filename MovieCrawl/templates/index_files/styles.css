@@ -1,0 +1,108 @@
+@font-face {
+    font-family: Vazir;
+    src: url('Vazir.eot');
+    src: url('Fonts/vazir-font-v16.1.0/Vazir.eot?#iefix') format('embedded-opentype'),
+        url('Fonts/vazir-font-v16.1.0/Vazir.woff') format('woff'),
+        url('Fonts/vazir-font-v16.1.0/Vazir.ttf') format('truetype');
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: Vazir_Bold;
+    src: url('Fonts/vazir-font-v16.1.0/Vazir-Bold.eot');
+    src: url('Fonts/vazir-font-v16.1.0/Vazir-Bold.eot?#iefix') format('embedded-opentype'),
+        url('Fonts/vazir-font-v16.1.0/Vazir-Bold.woff') format('woff'),
+        url('Fonts/vazir-font-v16.1.0/Vazir-Bold.ttf') format('truetype');
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: Vazir_light;
+    src: url('Fonts/vazir-font-v16.1.0/Vazir-Light.eot');
+    src: url('Fonts/vazir-font-v16.1.0/Vazir-Light.eot?#iefix') format('embedded-opentype'),
+        url('Fonts/vazir-font-v16.1.0/Vazir-Light.woff') format('woff'),
+        url('Fonts/vazir-font-v16.1.0/Vazir-Light.ttf') format('truetype');
+    font-weight: 300;
+}
+*{
+    padding: 0;
+    margin: 0;
+    display: inline-block;
+}
+
+.left_bar{
+    position: fixed;
+        background-color: antiquewhite;
+        height: 20cm;
+        width: 6cm;
+        left: 0;
+        
+}
+
+.right_bar{
+    background-color: aqua;
+        height: 20cm;
+        width: 6cm;
+        right: 0;
+        position: fixed;
+}
+
+.foot{
+    background-color: brown;
+    width: 23cm;
+    height: 3cm;
+    position: fixed;
+    bottom: 0;
+    right: 250px;
+}
+.matlab{
+    position:relative;
+    width: 20cm;
+    height: 12cm;
+    background-color:saddlebrown;
+    border: solid antiquewhite;
+    border-radius: 20px;
+    margin-right: 2cm;
+    top: 32px;
+}
+.main{
+    position:absolute; 
+    width: 24cm;
+    height: 440px;
+    right: 230px;
+}
+.main div p {
+    display: block ;
+    font-family: Vazir;
+    text-align: center;
+}
+.conti{
+    position: absolute;
+    bottom: 22px;
+    left: 25px;
+}
+
+.download{
+    position: absolute;
+        bottom: 5px;
+        left: 12px;
+
+}
+.jeld{
+    margin-right: 80px;
+    border: solid rosybrown;
+    border-radius: 25px;
+}
+.movie{
+    direction: ltr;
+    text-align:end;
+    white-space: nowrap;
+    position:static;
+    
+}
+
+.rside input{
+    width: 150px;
+    height: 25px;
+    margin: 40px;
+}
