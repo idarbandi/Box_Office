@@ -15,7 +15,7 @@ class gnrAdmin(admin.ModelAdmin):
     list_display = ['name']
 
 
-class movieInlineActor(admin.TabularInline):
+class movieInlineActor(admin.StackedInline):
     model = ActorMovie
 
 
@@ -27,10 +27,14 @@ class movieInlinegenre(admin.TabularInline):
     model = GenreMovie
 
 
+class imageInline(admin.StackedInline):
+    model = MovieImages
+
+
 class movieAdmin(admin.ModelAdmin):
     list_display = ['name', 'awards', 'year', 'director_id', 'actor_id', 'summary', 'is_active']
     list_filter = ['is_active']
-    inlines = [movieInlineDirector, movieInlinegenre, movieInlineActor]
+    inlines = [movieInlineDirector, movieInlinegenre, movieInlineActor, imageInline]
     search_fields = ['name', 'year']
 
     def has_delete_permission(self, request, obj=None):

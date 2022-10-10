@@ -20,8 +20,8 @@
         <p>{% for fed in feeds.actorsmovies.all%} {{fed.actor_id}} {% endfor %}</p>
         <p>{{feeds.director_id}}</p>
         <img
-          src="images/Screenshot from 2022-08-15 22-36-07.png"
-          alt="سفر شمال"
+          src="{% for pi in feeds.images.all%} {{pi.image.url}} {% endfor %}"
+          alt="{{feeds.name}}"
           class="jeld"
           width="80%"
         />
@@ -30,8 +30,8 @@
            {{feeds.summary}}
           </p>
         </div>
-        <p class="download">دانلود</p>
-        <p class="conti">ادامه مطلب</p>
+        <a href="" class="download">دانلود</a>
+        <a href="{%url 'parser_name' feeds.name%}" class="conti">ادامه مطلب</a>
       </div>
       <br />
       {% endfor %}

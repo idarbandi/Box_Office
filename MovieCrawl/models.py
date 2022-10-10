@@ -80,3 +80,10 @@ class GenreMovie(models.Model):
     def __str__(self):
         return f"{self.genre_id} , {self.movie_id}"
 
+
+class MovieImages(models.Model):
+    image = models.ImageField(blank=True, upload_to='MovieImages/')
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='images')
+
+    def __str__(self):
+        return self.movie.name
