@@ -1,8 +1,9 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from MovieCrawl.models import Movie
 from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
-from MovieCrawl.models import Movie, DirMovie
+from MovieCrawl.models import Movie
+from django.views.decorators.http import require_POST
 
 
 def parser(request, moviename):
@@ -16,17 +17,11 @@ def printer(request):
     return render(request, template_name='movies.html')
 
 
-def director(request, dir_nm):
-    return HttpResponse(f"{dir_nm}")
-
-
-def download(request):
-    query = request.GET.get('q')
-    response = Movie.objects.all().filter(name__icontains=query).first()
-    return HttpResponse(f"{response}")
-
-
 @login_required
+@require_POST
 @user_passes_test(lambda fun: fun.is_staff)
-def welcome(request):
-    return HttpResponse(f"hello {request.user.username}")
+def add_to_basket(request):
+    #TODO:Check if user has basket_id in Cookie
+    #TODO:Create and Design If Doesnt
+    #TODO:Get Product From Submitted Form
+    return HttpResponseRedirect(redirect_to='/redirect')

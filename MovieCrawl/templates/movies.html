@@ -30,16 +30,20 @@
            {{feeds.summary}}
           </p>
         </div>
-        <a href="" class="download">دانلود</a>
+        <form method="post"  action="{% url 'add'%}">
+          {% csrf_token%}
+          <input type="hidden" name="Movie.id" value="{{feed.name}}">
+          <button type="submit" style="color: blue;">BUY</button>
+        </form>
         <a href="{%url 'parser_name' feeds.name%}" class="conti">ادامه مطلب</a>
       </div>
       <br />
       {% endfor %}
     </div>
-    <aside class="col_xs_12 col_s_12 nav">
+        <aside class="col_xs_12 col_s_12 nav">
       <div class="col_s_12 col_xs_4 searchbox">
-        <input type="text" />
-        <button>جستجو</button>
+          <input type="text"/>
+          <button>جستجو</button>
       </div>
     </aside>
     <div class="footer">
