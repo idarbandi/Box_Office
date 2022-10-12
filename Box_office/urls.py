@@ -22,7 +22,7 @@ from MovieCrawl.views import *
 from django.conf import settings
 
 urlpatterns = [
-    # path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls),
     path('MovieCrawl/', include('MovieCrawl.urls')),
     path('user/', include('transactions.urls'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

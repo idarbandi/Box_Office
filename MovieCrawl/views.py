@@ -1,7 +1,9 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
-from MovieCrawl.models import Movie
-from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
+from django.http import HttpResponse, HttpResponseRedirect, Http404
+from khayyam import JalaliDatetime
+
+from Account.models import Account, BasketLines
+from django.contrib.auth.decorators import login_required, user_passes_test
 from MovieCrawl.models import Movie
 from django.views.decorators.http import require_POST
 
@@ -17,11 +19,38 @@ def printer(request):
     return render(request, template_name='movies.html')
 
 
-@login_required
 @require_POST
-@user_passes_test(lambda fun: fun.is_staff)
 def add_to_basket(request):
-    #TODO:Check if user has basket_id in Cookie
-    #TODO:Create and Design If Doesnt
-    #TODO:Get Product From Submitted Form
-    return HttpResponseRedirect(redirect_to='/redirect')
+    # TODO:Check if user has Account_id in Cookie
+    # TODO:Create and Design If Doesnt
+    # TODO:Check If User Is Authenticated
+    # TODO:Get Product From Submitted Form
+    # TODO:Add Product To The Product Basketline
+    # TODO:Return To The Next URL
+    response = HttpResponseRedirect(request.POST.get('next', '/'))
+
+    account_id = request.POST.get('account_id', None)
+    if account_id is None:
+        account = Account.objects.create()
+        response.set_cookie('account_id', account.id)
+    else:
+        try:
+            account = Account.objects.get(pk=account_id)
+        except Account.DoesNotExist:
+            raise Http404
+
+    if request.user.is_authenticated:
+        if account.user is not None and account.user != request.user:
+            raise Http404
+    account.user = request.user
+    account.save()
+
+    movie_id = request.POST.get('Movie_order', None)
+    if movie_id is not None:
+        try:
+            movie = Movie.objects.get(pk=movie_id)
+        except Movie.DoesNotExist:
+            raise Http404
+        else:
+            account.add(movie)
+    return response

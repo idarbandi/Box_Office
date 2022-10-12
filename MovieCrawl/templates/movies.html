@@ -32,7 +32,7 @@
         </div>
         <form method="post"  action="{% url 'add'%}">
           {% csrf_token%}
-          <input type="hidden" name="Movie.id" value="{{feed.name}}">
+          <input type="hidden" name="Movie_order" value="{{feeds.id}}">
           <button type="submit" style="color: blue;">BUY</button>
         </form>
         <a href="{%url 'parser_name' feeds.name%}" class="conti">ادامه مطلب</a>
