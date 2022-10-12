@@ -54,3 +54,7 @@ def add_to_basket(request):
         else:
             account.add(movie)
     return response
+
+
+def search(request, movie):
+    return render(request, )

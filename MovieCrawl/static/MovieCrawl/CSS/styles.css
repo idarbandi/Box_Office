@@ -176,8 +176,8 @@ button {
 }
 
 .searchbox input:active {
-  outline: rgb(#efef, #999, #6666);
-  border: indigo rgb(#efef, #999, #6666);
+  border : none
+  outline : none
 }
 
 .matlab p:nth-of-type(1) {
