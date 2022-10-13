@@ -1,0 +1,19 @@
+{% load static%}
+<!DOCTYPE html>
+<html lang="en">
+{%block head%}
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'MovieCrawl/CSS/styles.css' %}"/>
+    <title>{{request.name.username}}</title>
+{% endblock %}
+{% load requet_feed %}
+{%block content%}
+ <div class="col_xs_6 col_s_12 pad_sides marg_up_and_sides main">
+      {{film.name}}
+    </div>
+{% endblock %}
+{%include 'union/union_nav.html'%}
+{%include 'union/union_footer.html'%}

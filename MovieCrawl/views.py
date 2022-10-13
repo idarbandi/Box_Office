@@ -1,21 +1,21 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, Http404
-from khayyam import JalaliDatetime
 
 from Account.models import Account, BasketLines
 from django.contrib.auth.decorators import login_required, user_passes_test
 from MovieCrawl.models import Movie
 from django.views.decorators.http import require_POST
+from MovieCrawl.forms import AddToBasketForm
 
 
 def parser(request, moviename):
-    film = Movie.objects.all().get(name=moviename)
-    return HttpResponse(f"{film}")
+    film = dict()
+    film['search'] = Movie.objects.all().get(name=moviename)
+    film['form'] = AddToBasketForm({"movie": film['search'].id, "quantity": 1})
+    return render(request, 'movie.html', film)
 
 
 def printer(request):
-    # context = dict()
-    # context['movie'] = Movie.objects.all()
     return render(request, template_name='movies.html')
 
 
@@ -27,7 +27,7 @@ def add_to_basket(request):
     # TODO:Get Product From Submitted Form
     # TODO:Add Product To The Product Basketline
     # TODO:Return To The Next URL
-    response = HttpResponseRedirect(request.POST.get('next', '/'))
+    response = HttpResponseRedirect(request.POST.get('next', 'dargah'))
 
     account_id = request.POST.get('account_id', None)
     if account_id is None:
@@ -45,16 +45,18 @@ def add_to_basket(request):
     account.user = request.user
     account.save()
 
-    movie_id = request.POST.get('Movie_order', None)
-    if movie_id is not None:
-        try:
-            movie = Movie.objects.get(pk=movie_id)
-        except Movie.DoesNotExist:
-            raise Http404
-        else:
-            account.add(movie)
+    form = AddToBasketForm(request.POST)
+    if form.is_valid():
+        form.save(account)
     return response
 
 
-def search(request, movie):
-    return render(request, )
+def search(request):
+    movie_name = request.POST.get('box', None)
+    if movie_name is not None:
+        film = Movie.objects.all().filter(name__icontains=movie_name)
+    return render(request, template_name='search.html', context=film)
+
+
+def PayGateway(request):
+    return HttpResponse("dargah_Pardakht")

@@ -7,33 +7,34 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="{% static 'MovieCrawl/CSS/styles.css' %}"/>
-    <title>{{request.user}}</title>
+    <title>{{search.name}}</title>
 {% endblock %}
-{% load requet_feed %}
 {%block content%}
  <div class="col_xs_6 col_s_12 pad_sides marg_up_and_sides main">
-      {% feeder as feed %}
-      {% for feeds in feed %}
         <br/>
       <div class="matlab">
-        <p>{{feeds.name}}</p>
-        <p>{% for fed in feeds.actorsmovies.all%} {{fed.actor_id}} {% endfor %}</p>
-        <p>{{feeds.director_id}}</p>
+        <p>{{search.name}}</p>
+        <p>{{search.director_id}}</p>
+        <p>{%for actor in search.actorsmovies.all%}{{ actor.actor_id }}{%endfor%}</p>
         <img
-          src="{% for pi in feeds.images.all%} {{pi.image.url}} {% endfor %}"
-          alt="{{feeds.name}}"
+          src="{% for pi in search.images.all%} {{pi.image.url}} {% endfor %}"
+          alt="{{search.name}}"
           class="jeld"
           width="80%"
         />
         <div class="summary">
           <p>
-           {{feeds.summary}}
+           {{search.summary}}
           </p>
         </div>
-        <a href="{%url 'parser_name' feeds.name%}" class="conti">ادامه مطلب</a>
+          <form style="position:absolute;left:0;" method="post"  action="{% url 'add'%}">
+          {% csrf_token%}
+          {{form.as_p}}
+              <input type="hidden" name="next" value="{{request.build_absolute_uri}}">
+            <button type="submit" style="color: blue;">BUY</button>
+        </form>
       </div>
       <br />
-      {% endfor %}
     </div>
 {% endblock %}
 {%include 'union/union_nav.html'%}
