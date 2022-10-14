@@ -21,6 +21,28 @@ class Account(models.Model):
             movie_basket = self.basket.create(movie=film, quantity=qty)
         return movie_basket
 
+    def user_validate(self, user):
+        if user.is_authenticated:
+            if self.user is not None and self.user != user:
+                return False
+            if self.user is None:
+                self.user = user
+                self.save()
+        elif self.user is not None:
+            return False
+        return True
+
+    @classmethod
+    def account_validate(cls, account_id):
+        if account_id is None:
+            account = cls.objects.create()
+        else:
+            try:
+                account = cls.objects.get(pk=account_id)
+            except cls.DoesNotExist:
+                account = None
+        return account
+
 
 class BasketLines(models.Model):
     account = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='basket')

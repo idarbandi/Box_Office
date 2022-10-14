@@ -21,33 +21,21 @@ def printer(request):
 
 @require_POST
 def add_to_basket(request):
-    # TODO:Check if user has Account_id in Cookie
-    # TODO:Create and Design If Doesnt
-    # TODO:Check If User Is Authenticated
-    # TODO:Get Product From Submitted Form
-    # TODO:Add Product To The Product Basketline
-    # TODO:Return To The Next URL
     response = HttpResponseRedirect(request.POST.get('next', 'dargah'))
 
-    account_id = request.POST.get('account_id', None)
-    if account_id is None:
-        account = Account.objects.create()
-        response.set_cookie('account_id', account.id)
-    else:
-        try:
-            account = Account.objects.get(pk=account_id)
-        except Account.DoesNotExist:
-            raise Http404
+    account = Account.account_validate(request.POST.get('account_id', None))
+    if account is None:
+        raise Http404
 
-    if request.user.is_authenticated:
-        if account.user is not None and account.user != request.user:
-            raise Http404
-    account.user = request.user
-    account.save()
+    response.set_cookie('account_id', account.id)
+
+    if not account.user_validate(request.user):
+        raise Http404
 
     form = AddToBasketForm(request.POST)
     if form.is_valid():
         form.save(account)
+
     return response
 
 
