@@ -1,0 +1,91 @@
+@font-face {
+    font-family: Vazir;
+    src: url('Fonts/vazir-font-v16.1.0/Vazir.eot');
+    src: url('Fonts/vazir-font-v16.1.0/Vazir.eot?#iefix') format('embedded-opentype'),
+        url('Fonts/vazir-font-v16.1.0/Vazir.woff') format('woff'),
+        url('Fonts/vazir-font-v16.1.0/Vazir.ttf') format('truetype');
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: Vazir-Bold;
+    src: url('Fonts/vazir-font-v16.1.0/Vazir-Bold.eot');
+    src: url('Fonts/vazir-font-v16.1.0/Vazir-Bold.eot?#iefix') format('embedded-opentype'),
+        url('Fonts/vazir-font-v16.1.0/Vazir-Bold.woff') format('woff'),
+        url('Fonts/vazir-font-v16.1.0/Vazir-Bold.ttf') format('truetype');
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: Vazir-Light;
+    src: url('Fonts/vazir-font-v16.1.0/Vazir-Light.eot');
+    src: url('Fonts/vazir-font-v16.1.0/Vazir-Light.eot?#iefix') format('embedded-opentype'),
+        url('Fonts/vazir-font-v16.1.0/Vazir-Light.woff') format('woff'),
+        url('Fonts/vazir-font-v16.1.0/Vazir-Light.ttf') format('truetype');
+    font-weight: 300;
+}
+body {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    background: url(images/back1.jpg) 50% 10% no-repeat;
+    display: table;
+}
+
+main {
+    position: absolute;
+    background-color: rgba(red, green, blue, alpha);
+    width: 100%;
+    height: 100%;
+}
+
+section {
+    position: absolute;
+    width: 30%;
+    height: 60%;
+    top: 50%;
+    left: 50%;
+    padding: 25px;
+    transform: translateX(-50%) translateY(-50%);
+    background-color: transparent;
+    border: solid black 3px;
+}
+
+input {
+    font-family: Vazir;
+    position: relative;
+    display: block;
+    background: #000;
+    width: 80%;
+    color: azure;
+    text-align: center;
+    margin: 2% auto;
+
+}
+
+button {
+    font-family: Vazir-Light;
+    position: absolute;
+    background: #000;
+    color: azure;
+    width: 85%;
+    top: 80%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+h3 {
+    text-align: center;
+    color: aquamarine;
+    font-family: Vazir-Bold;
+}
+
+@media only screen and (max-width: 450px){
+            section{
+                top: 50%;
+                left: 50%;
+                transform: translate(-50% -50%);
+                width:80%;
+                height: 70%;
+            }
+        }

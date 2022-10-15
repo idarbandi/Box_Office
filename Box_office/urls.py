@@ -24,5 +24,6 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('MovieCrawl/', include('MovieCrawl.urls')),
-    path('user/', include('transactions.urls'))
+    path('user/', include('transactions.urls')),
+    path('shipping/', include('shipping.urls'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

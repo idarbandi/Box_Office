@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'MovieCrawl.apps.MoviecrawlConfig',
     'transactions.apps.TransactionsConfig',
     'distributer.apps.DistributerConfig',
-    'Account.apps.AccountConfig'
+    'Account.apps.AccountConfig',
+    'shipping.apps.ShippingConfig'
 ]
 
 MIDDLEWARE = [
