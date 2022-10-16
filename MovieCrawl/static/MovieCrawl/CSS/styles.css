@@ -32,6 +32,11 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  font-family: Vazir;
+}
+a {
+  text-decoration: none;
+  color:black;
 }
 
 .nav {
@@ -41,30 +46,7 @@
   height: 20%;
   margin-bottom: auto;
 }
-.nav ul {
-  position: absolute;
-  background-color: yellow;
-}
-.menu {
-  display: inline;
-  margin: 0 5%;
-}
-.menu:hover .submenu1 {
-  display: block;
-}
-.submenu1 {
-  position: absolute;
-  display: none;
-  margin: 0 5%;
-}
-.submenu2 {
-  position: absolute;
-  display: none;
-  margin: 0 25%;
-}
-.menu:hover .submenu2 {
-  display: block;
-}
+
 .main {
   position: absolute;
   display: inline;
@@ -80,7 +62,6 @@
   width: auto;
   border-radius: 20px;
 }
-
 .summary {
   text-align: center;
   position: absolute;
@@ -138,7 +119,12 @@
 
 .searchbox {
   position: absolute;
-  right: 0;
+  left: 0;
+}
+.searchbox::after {
+  content: attr();
+  clear: both;
+  display: table;
 }
 
 .searchbox input,
@@ -151,8 +137,7 @@ button {
   background: transparent;
   color: white;
 }
-.searchbox input{
-  dir : right;
+.searchbox input {
   width: 85%;
   height: 80%;
 }
@@ -177,8 +162,8 @@ button {
 }
 
 .searchbox input:active {
-  border : none
-  outline : none
+  outline: none;
+  border: none;
 }
 
 .matlab p:nth-of-type(1) {
@@ -187,9 +172,6 @@ button {
 
 .matlab p:nth-of-type(2) {
   background-color: slateblue;
-}
-.matlab p:nth-of-type(3) {
-  background-color: violet;
 }
 
 .social {
@@ -208,12 +190,38 @@ button {
 .pad_sides {
   padding: 0 1%;
 }
-.footer{
-  position:fixed;
+.footer {
+  position: fixed;
   width: 100%;
   bottom: 0;
 }
+.menu {
+  width: 50%;
+  position: relative;
+  float: right;
+  padding: 0 1%;
+}
+.menu ul {
+  display: inline-block;
+  padding: 0 1%;
+  margin: 0 2%;
+}
+.menu ul li {
+  list-style: none;
+  min-width: inherit;
+  text-align: center;
+  visibility: hidden;
+}
+.menu ul:hover li {
+  visibility: visible;
+  transition: all 2s ease-out 500ms;
+}
 
+.menu ul li:hover{
+  scale: 120%;
+  transition: all 0.5s ease;
+  background-color: aquamarine;
+}
 @media only screen and (min-width: 481px) {
   .col_xs_12 {
     width: 100%;
@@ -269,10 +277,6 @@ button {
     width: 100%;
   }
 
-  .matlab {
-    margin-top: 25%;
-  }
-
   .main {
     margin: auto 0%;
   }
@@ -319,5 +323,20 @@ button {
 
   .col_s_1 {
     width: 8.33%;
+  }
+    .matlab {
+      margin-top: 25%;
+    }
+
+    .menu{
+      margin: 15% 0;
+      font-size:small;
+    }
+
+  .menu ul li{
+    text-align: center;
+  }
+  .menu ul{
+    margin: 0 1.5px;
   }
 }

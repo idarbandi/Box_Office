@@ -7,7 +7,7 @@ class shipping(models.Model):
     city = models.CharField(max_length=32, blank=True)
     zipcode = models.TextField(max_length=16)
     address = models.TextField(max_length=100)
-    number = models.IntegerField()
+    number = models.SmallIntegerField()
 
     created_time = models.DateTimeField(auto_now_add=True)
     modified_time = models.DateTimeField(auto_now_add=True)
