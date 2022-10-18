@@ -12,7 +12,9 @@
 {%block content%}
  <main>
         <section>
-            {{form.as_p}}
+            {%for address in form %}
+            <input type="button" value="{{address.address}}">
+            {%endfor%}
         </section>
     </main>
 {% endblock %}

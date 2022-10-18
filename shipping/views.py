@@ -1,8 +1,10 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.views.decorators.http import require_http_methods, require_GET
 
 from shipping.forms import shippingForm, listForm
+from shipping.models import shipping
 
 
 @login_required
@@ -22,5 +24,5 @@ def address_create(request):
 @login_required
 @require_GET
 def address_list(request):
-    form = listForm(request.user)
-    return render(request, 'address_list.html', {"form": form.address_list})
+    form = shipping.objects.filter(user=request.user)
+    return render(request, 'address_list.html', {"form": form})

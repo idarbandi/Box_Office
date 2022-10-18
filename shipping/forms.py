@@ -1,4 +1,6 @@
 from django import forms
+from django.contrib.auth.models import User
+
 from shipping.models import shipping
 
 
@@ -15,6 +17,10 @@ class shippingForm(forms.ModelForm):
 
 
 class listForm(forms.Form):
-    def __init__(self, user):
+    user = None
+    address = forms.ChoiceField()
+
+    def __init__(self, user, *args, **kwargs):
         self.user = user
-        self.address_list = forms.ModelChoiceField(queryset=user.address.all())
+        super(listForm, self).__init__(*args, **kwargs)
+
