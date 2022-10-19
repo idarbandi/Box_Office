@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from phonenumber_field.modelfields import PhoneNumberField
 
 
 class shipping(models.Model):
@@ -7,7 +8,7 @@ class shipping(models.Model):
     city = models.CharField(max_length=32, blank=True)
     zipcode = models.TextField(max_length=16)
     address = models.TextField(max_length=100)
-    number = models.SmallIntegerField()
+    number = PhoneNumberField(blank=True, null=True, region='IR', max_length=14)
 
     created_time = models.DateTimeField(auto_now_add=True)
     modified_time = models.DateTimeField(auto_now_add=True)
