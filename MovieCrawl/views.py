@@ -40,10 +40,10 @@ def add_to_basket(request):
 
 
 def search(request):
-    movie_name = request.POST.get('box', None)
+    movie_name = request.GET.get('box', None)
     if movie_name is not None:
-        film = Movie.objects.all().filter(name__icontains=movie_name)
-    return render(request, template_name='search.html', context=film)
+        film = Movie.objects.filter(name__icontains=movie_name)
+    return render(request, 'search.html', {"film": film})
 
 
 def PayGateway(request):

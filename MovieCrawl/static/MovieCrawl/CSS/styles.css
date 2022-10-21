@@ -140,6 +140,9 @@ button {
 .searchbox input {
   width: 85%;
   height: 80%;
+  text-align : right;
+  color:inherit;
+  outline:none;
 }
 .searchbox button {
   font-family: Vazir-Light;
@@ -162,8 +165,7 @@ button {
 }
 
 .searchbox input:active {
-  outline: none;
-  border: none;
+
 }
 
 .matlab p:nth-of-type(1) {

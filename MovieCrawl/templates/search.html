@@ -7,13 +7,33 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="{% static 'MovieCrawl/CSS/styles.css' %}"/>
-    <title>{{request.name.username}}</title>
+    <title>{{request.user}}</title>
 {% endblock %}
-{% load requet_feed %}
 {%block content%}
  <div class="col_xs_6 col_s_12 pad_sides marg_up_and_sides main">
-      {{film.name}}
+      {% for feeds in film %}
+        <br/>
+      <div class="matlab">
+        <p>{{feeds.name}}</p>
+        <p>{% for fed in feeds.actorsmovies.all%} {{fed.actor_id}} {% endfor %}</p>
+        <p>{{feeds.director_id}}</p>
+        <img
+          src="{% for pi in feeds.images.all%} {{pi.image.url}} {% endfor %}"
+          alt="{{feeds.name}}"
+          class="jeld"
+          width="80%"
+        />
+        <div class="summary">
+          <p>
+           {{feeds.summary}}
+          </p>
+        </div>
+        <a href="{%url 'parser_name' feeds.name%}" class="conti">ادامه مطلب</a>
+      </div>
+      <br />
+      {% endfor %}
     </div>
 {% endblock %}
 {%include 'union/union_nav.html'%}
 {%include 'union/union_footer.html'%}
+{%include 'union/union_menu.html'%}
