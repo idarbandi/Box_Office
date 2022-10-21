@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.views import View
 
 from Account.models import Account, BasketLines
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -8,15 +9,18 @@ from django.views.decorators.http import require_POST
 from MovieCrawl.forms import AddToBasketForm
 
 
+class main(View):
+    template_name = 'movies.html'
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name)
+
+
 def parser(request, moviename):
     film = dict()
     film['search'] = Movie.objects.all().get(name=moviename)
     film['form'] = AddToBasketForm({"movie": film['search'].id, "quantity": 1})
     return render(request, 'movie.html', film)
-
-
-def printer(request):
-    return render(request, template_name='movies.html')
 
 
 @require_POST
