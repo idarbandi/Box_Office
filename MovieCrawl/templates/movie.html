@@ -13,24 +13,23 @@
  <div class="col_xs_6 col_s_12 pad_sides marg_up_and_sides main">
         <br/>
       <div class="matlab">
-        <p>{{search.name}}</p>
-        <p>{{search.director_id}}</p>
-        <p>{%for actor in search.actorsmovies.all%}{{ actor.actor_id }}{%endfor%}</p>
+        <p>{{movie.name}}</p>
+        <p>{{movie.director_id}}</p>
+        <p>{%for actor in movie.actorsmovies.all%}{{ actor.actor_id }}{%endfor%}</p>
         <img
-          src="{% for pi in search.images.all%} {{pi.image.url}} {% endfor %}"
-          alt="{{search.name}}"
+          src="{% for pi in movie.images.all%} {{pi.image.url}} {% endfor %}"
+          alt="{{movie.name}}"
           class="jeld"
           width="80%"
         />
         <div class="summary">
           <p>
-           {{search.summary}}
+           {{movie.summary}}
           </p>
         </div>
           <form style="position:absolute;left:0;" method="post"  action="{% url 'add'%}">
           {% csrf_token%}
           {{form.as_p}}
-              <input type="hidden" name="next" value="{{request.build_absolute_uri}}">
             <button type="submit" style="color: blue;">BUY</button>
         </form>
       </div>

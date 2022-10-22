@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.views import View
+from django.views.generic import DetailView, FormView
 
 from Account.models import Account, BasketLines
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -16,11 +17,21 @@ class main(View):
         return render(request, self.template_name)
 
 
-def parser(request, moviename):
-    film = dict()
-    film['search'] = Movie.objects.all().get(name=moviename)
-    film['form'] = AddToBasketForm({"movie": film['search'].id, "quantity": 1})
-    return render(request, 'movie.html', film)
+class movie(DetailView, FormView):
+    model = Movie
+    template_name = 'movie.html'
+    queryset = Movie.objects.all()
+    slug_url_kwarg = 'movie'
+    slug_field = 'name'
+    form_class = AddToBasketForm
+    initial = {"quantity": 1}
+
+
+# def parser(request, moviename):
+#     film = dict()
+#     film['search'] = Movie.objects.all().get(name=moviename)
+#     film['form'] = AddToBasketForm({"movie": film['search'].id, "quantity": 1})
+#     return render(request, 'movie.html', film)
 
 
 @require_POST
