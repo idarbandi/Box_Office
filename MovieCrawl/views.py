@@ -21,17 +21,12 @@ class movie(DetailView, FormView):
     model = Movie
     template_name = 'movie.html'
     queryset = Movie.objects.all()
-    slug_url_kwarg = 'movie'
-    slug_field = 'name'
     form_class = AddToBasketForm
-    initial = {"quantity": 1}
+    initial = {"movie": None, "quantity": 1}
 
-
-# def parser(request, moviename):
-#     film = dict()
-#     film['search'] = Movie.objects.all().get(name=moviename)
-#     film['form'] = AddToBasketForm({"movie": film['search'].id, "quantity": 1})
-#     return render(request, 'movie.html', film)
+    def get(self, request, *args, **kwargs):
+        self.initial['movie'] = kwargs.get('pk')
+        return super().get(request, *args, **kwargs)
 
 
 @require_POST

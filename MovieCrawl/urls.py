@@ -4,7 +4,7 @@ from MovieCrawl.views import movie, add_to_basket, search, PayGateway, main
 
 urlpatterns = [
                   path('movie/main', main.as_view()),
-                  path('movie/<str:movie>', movie.as_view(), name='movie'),
+                  path('movie/<int:pk>', movie.as_view(), name='movie'),
                   path('movie/search/', search, name='searchbox'),
                   path('movie/account/addToBasket', add_to_basket, name='add'),
                   path('movie/pay', PayGateway, name='dargah')
