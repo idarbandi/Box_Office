@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import DetailView, FormView
 
@@ -27,7 +28,25 @@ class movie(DetailView, FormView):
     def get(self, request, *args, **kwargs):
         self.initial['movie'] = kwargs.get('pk')
         return super().get(request, *args, **kwargs)
+class Shop(FormView):
+    success_url = 'dargah'
+    form_class = AddToBasketForm
+    initial = None
 
+    @method_decorator(require_POST, login_required())
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        account = Account.account_validate(request.POST.get('account_id', None))
+        if account is None:
+            raise Http404
+        self.request.session['account_id'] = account.id
+        if not account.user_validate(request.user):
+            raise Http404
+        self.initial = request.POST
+
+        return super().post(request, *args, **kwargs)
 
 @require_POST
 def add_to_basket(request):
