@@ -1,7 +1,6 @@
 <aside class="col_xs_12 col_s_12 nav">
     <div class="col_s_12 col_xs_4 searchbox">
         <form action="{% url 'searchbox'  %}" method="GET">
-            {% csrf_token %}
             <input type="text" name="box"/>
                 <button type="submit">جستجو</button>
         </form>

@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views import View
-from django.views.generic import DetailView, FormView, RedirectView
+from django.views.generic import DetailView, FormView, RedirectView, ListView
 
 from Account.models import Account
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -34,7 +34,7 @@ class movie(DetailView, FormView):
 class Shop(RedirectView):
     pattern_name = 'financial'
 
-    @method_decorator(require_POST, login_required())
+    @method_decorator(require_POST)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
@@ -52,11 +52,17 @@ class Shop(RedirectView):
             return super().post(request)
 
 
-def search(request):
-    movie_name = request.GET.get('box', None)
-    if movie_name is not None:
-        film = Movie.objects.filter(name__icontains=movie_name)
-    return render(request, 'search.html', {"film": film})
+class Search(ListView):
+    model = Movie
+    template_name = 'search.html'
+    context_object_name = 'Search'
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        movie_name = self.request.GET.get('box', None)
+        print(self.request.GET.get('box', None))
+        return qs.filter(name__icontains=movie_name)
+
 
 
 def PayGateway(request):

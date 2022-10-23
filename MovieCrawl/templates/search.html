@@ -11,7 +11,7 @@
 {% endblock %}
 {%block content%}
  <div class="col_xs_6 col_s_12 pad_sides marg_up_and_sides main">
-      {% for feeds in film %}
+      {% for feeds in Search %}
         <br/>
       <div class="matlab">
         <p>{{feeds.name}}</p>
@@ -28,7 +28,7 @@
            {{feeds.summary}}
           </p>
         </div>
-        <a href="{%url 'parser_name' feeds.name%}" class="conti">ادامه مطلب</a>
+        <a href="{%url 'movie' feeds.pk%}" class="conti">ادامه مطلب</a>
       </div>
       <br />
       {% endfor %}
