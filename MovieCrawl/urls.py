@@ -7,5 +7,5 @@ urlpatterns = [
                   path('movie/<int:pk>', movie.as_view(), name='movie'),
                   path('movie/search/', search, name='searchbox'),
                   path('movie/account/addToBasket', Shop.as_view(), name='add'),
-                  path('movie/account/dargah', PayGateway, name='dargah')
+                  path('movie/account/financial', PayGateway, name='financial')
               ]

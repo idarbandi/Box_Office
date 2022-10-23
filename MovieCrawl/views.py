@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views import View
-from django.views.generic import DetailView, FormView
+from django.views.generic import DetailView, FormView, RedirectView
 
 from Account.models import Account
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -31,8 +31,8 @@ class movie(DetailView, FormView):
         return super().get(request, *args, **kwargs)
 
 
-class Shop(FormView):
-    success_url = reverse_lazy('dargah')
+class Shop(RedirectView):
+    pattern_name = 'financial'
 
     @method_decorator(require_POST, login_required())
     def dispatch(self, request, *args, **kwargs):
@@ -48,27 +48,8 @@ class Shop(FormView):
             raise Http404
         form = AddToBasketForm(request.POST)
         if form.is_valid():
-            return form.save(account)
-
-
-@require_POST
-def add_to_basket(request):
-    response = HttpResponseRedirect(request.POST.get('next', 'dargah'))
-
-    account = Account.account_validate(request.POST.get('account_id', None))
-    if account is None:
-        raise Http404
-
-    response.set_cookie('account_id', account.id)
-
-    if not account.user_validate(request.user):
-        raise Http404
-
-    form = AddToBasketForm(request.POST)
-    if form.is_valid():
-        form.save(account)
-
-    return response
+            form.save(account)
+            return super().post(request)
 
 
 def search(request):
