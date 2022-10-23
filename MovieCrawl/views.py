@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import DetailView, FormView
 
-from Account.models import Account, BasketLines
+from Account.models import Account
 from django.contrib.auth.decorators import login_required, user_passes_test
 from MovieCrawl.models import Movie
 from django.views.decorators.http import require_POST
@@ -28,15 +29,16 @@ class movie(DetailView, FormView):
     def get(self, request, *args, **kwargs):
         self.initial['movie'] = kwargs.get('pk')
         return super().get(request, *args, **kwargs)
+
+
 class Shop(FormView):
-    success_url = 'dargah'
-    form_class = AddToBasketForm
-    initial = None
+    success_url = reverse_lazy('dargah')
 
     @method_decorator(require_POST, login_required())
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
+    @method_decorator(login_required())
     def post(self, request, *args, **kwargs):
         account = Account.account_validate(request.POST.get('account_id', None))
         if account is None:
@@ -44,9 +46,10 @@ class Shop(FormView):
         self.request.session['account_id'] = account.id
         if not account.user_validate(request.user):
             raise Http404
-        self.initial = request.POST
+        form = AddToBasketForm(request.POST)
+        if form.is_valid():
+            return form.save(account)
 
-        return super().post(request, *args, **kwargs)
 
 @require_POST
 def add_to_basket(request):
