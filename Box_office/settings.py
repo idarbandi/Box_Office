@@ -38,7 +38,9 @@ INSTALLED_APPS = [
     'transactions.apps.TransactionsConfig',
     'distributer.apps.DistributerConfig',
     'Account.apps.AccountConfig',
-    'shipping.apps.ShippingConfig'
+    'shipping.apps.ShippingConfig',
+    'financial.apps.FinancialConfig',
+    'package.apps.PackageConfig'
 ]
 
 MIDDLEWARE = [
@@ -125,6 +127,14 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+ZARINPAL = {
+    'gateway_request_url': 'https://sandbox.zarinpal.com/pg/services/WebGate/wsdl',
+    'callback_request_url': 'http://127.0.0.1:8000/finance/verify',
+    'merchant_id': 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX',
+}
+
 
 
 # Default primary key field type

@@ -1,0 +1,78 @@
+{% load static%}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>خریداشتراک 💸</title>
+    <!-- CSS Styles -->
+    <link
+      type="text/css"
+      href="{% static 'package/CSS/bootstrap-rtl.css' %}"
+      rel="stylesheet"
+    />
+    <link
+      type="text/css"
+      href="{% static 'package/CSS/style.css' %}"
+      rel="stylesheet"
+    />
+  </head>
+  {%load package%}
+  {% PackInit as pkg%}
+  {% golden as gold%}
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <!-- Start Packages -->
+          <div class="plans">
+            {%for plan in pkg%}
+			<div class="col-md-3">
+              <!-- Start Plan Box -->
+              <div class="plan">
+                <h3 class="plan-title">{{plan.title}}</h3>
+                <p class="plan-price">
+                  {{plan.price}} هزار تومان
+                  <span class="plan-unit">{{plan.days}} روزه</span>
+                </p>
+                <ul class="plan-features">
+                  {%for bn in plan.benefits.all%}
+                  <li class="plan-feature">
+                    ✔️ <span class="plan-feature-name">{{bn.description}}</span>
+				  {%endfor%}
+                  </li>
+                </ul>
+                <a href="#" class="plan-button">سفارش دهید</a>
+              </div>
+              <!-- End Plan Box -->
+            </div>
+            {%endfor%}
+			{%for gold in gold%}
+			<div class="col-md-3">
+              <div class="plan plan-highlight">
+                <p class="plan-recommended">پیشنهاد ما به شما</p>
+                <h3 class="plan-title">{{gold.title}}</h3>
+                <p class="plan-price">
+                  {{gold.price}} هزار تومان
+                  <span class="plan-unit">{{plan.days}} روزه</span>
+                </p>
+                <ul class="plan-features">
+                  {%for plan in gold.benefits.all%}
+                  <li class="plan-feature">
+                    ➕
+                    <span class="plan-feature-name">{{plan.description}}</span>
+                  </li>
+                  {%endfor%}
+                </ul>
+                <a href="#" class="plan-button">سفارش دهید</a>
+              </div>
+            </div>
+            {%endfor%}
+          </div>
+          <!-- End Packages -->
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -32,7 +32,7 @@ class movie(DetailView, FormView):
 
 
 class Shop(RedirectView):
-    pattern_name = 'financial'
+    pattern_name = 'pay'
 
     @method_decorator(require_POST)
     def dispatch(self, request, *args, **kwargs):
