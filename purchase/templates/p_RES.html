@@ -5,6 +5,13 @@
     <title>Title</title>
 </head>
 <body>
-{%if purchase%} purchase with id {{purchase.id}} is paid{%else%}Fuck You {%endfor%}
+{%if purchase%}
+purchase with id
+{{purchase.id}}
+is paid
+<a href="{% url 'PurchaseDirect' purchase.payment.invoice_number %}">Direct Link To Pay</a>
+{%else%}
+Fuck You
+{%endif%}
 </body>
 </html>

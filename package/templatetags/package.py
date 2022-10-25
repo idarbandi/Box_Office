@@ -6,9 +6,9 @@ register = template.Library()
 
 @register.simple_tag
 def PackInit():
-    return Package.objects.exclude(price=75000)
+    return Package.objects.exclude(is_golden=True)
 
 
 @register.simple_tag
 def golden():
-    return Package.objects.filter(price=75000)
+    return Package.objects.filter(is_golden=True)

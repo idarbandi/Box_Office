@@ -9,7 +9,6 @@ from django.db import models
 from financial.utils.zarinpal import zarinpal_request_handler, zarinpal_payment_checker
 
 
-# Create your models here.
 class Gateway(models.Model):
     """ 💳 """
     FUNCTION_ZARINPAL = 'zarinpal'
@@ -25,8 +24,8 @@ class Gateway(models.Model):
     is_enable = models.BooleanField(verbose_name=_('is enable'), default=True)
     auth_data = models.TextField(verbose_name=_('auth data'), null=True, blank=True)
 
-    created_time = models.DateTimeField(JalaliDatetime.now)
-    modified_time = models.DateTimeField(JalaliDatetime.now)
+    created_time = models.DateTimeField(default=JalaliDatetime.now)
+    modified_time = models.DateTimeField(default=JalaliDatetime.now)
 
     class Meta:
         verbose_name = _('gateway')
@@ -53,9 +52,8 @@ class Payment(models.Model):
     invoice_number = models.UUIDField(max_length=150, verbose_name=_('invoice number'),
                                       unique=True, default=uuid.uuid4())
     amount = models.IntegerField(verbose_name=_('amount'))
-    gateway = models.ForeignKey(
-        Gateway, related_name='payments', verbose_name=_('gateway'), on_delete=models.CASCADE, null=True
-    )
+    gateway = models.ForeignKey(Gateway, on_delete=models.CASCADE, related_name='payments', verbose_name=_('gateways'),
+                                null=True, blank=True)
     is_paid = models.BooleanField(verbose_name=_('is paid'), default=False)
     payment_log = models.TextField(verbose_name=_('log'), blank=True)
     user = models.ForeignKey(User, related_name='payments', verbose_name=_('user'), on_delete=models.SET_NULL,
@@ -81,5 +79,17 @@ class Payment(models.Model):
                     amount=self.amount,
                     detail='No detail',
                     user_email=self.user.email,
-                    user_phone_number=self.user.phone_number, callback='http://127.0.0.1:8000/financial/verify')
+                    user_phone_number='0912256487',
+                    callback='http://127.0.0.1:8000/financial/verify')
         return data
+
+    @property
+    def bank_page(self):
+        handler = self.gateway.get_request_handler()
+        if handler is not None:
+            data = self.get_data()
+            link, authority = handler(**data)
+            if authority:
+                self.authority = authority
+                self.save()
+            return link

@@ -11,17 +11,7 @@
   {% endblock %} {%block content%}
   <main>
     <section>
-      <p>title : {{payment.title}}</p>
-      <p>ID : {{payment.id}}</p>
-      <p>amount : {{payment.amount}}</p>
-      Gateways:
-           {%if gateways%}
-                   {%for gateways in gateway %}
-                   <a href="{% url 'PostGateWay' payment.invoice_number gateways.gateway_code %}">{{gateways.title}}</a>
-           {%endfor%}
-            {%else%}
-                 <a href="{% url 'PostGateWay' payment.invoice_number gateway.gateway_code %}">{{gateway.title}}</a>
-           {%endif%}
+
     </section>
   </main>
   {% endblock %}

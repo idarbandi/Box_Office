@@ -1,7 +1,4 @@
 
-
-
-    
 # zarinpal request handler
 from django.conf import settings
 from suds.client import Client

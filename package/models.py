@@ -8,6 +8,7 @@ class Package(models.Model):
     description = models.TextField(blank=True)
     days = models.PositiveSmallIntegerField()
     is_enable = models.BooleanField(default=True)
+    is_golden = models.BooleanField(default=False)
 
     created_day = models.DateField(default=JalaliDate.today)
     created_time = models.TimeField(auto_now_add=True)

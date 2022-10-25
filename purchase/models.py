@@ -4,6 +4,8 @@ from django.db import transaction
 from financial.models import Payment
 from package.models import Package
 
+from django.db import models
+
 
 class Purchase(models.Model):
     PAID = 10
@@ -27,7 +29,7 @@ class Purchase(models.Model):
         return f"{self.package} >> {self.user} >> {self.status}"
 
     @staticmethod
-    def create_payment(user, package):
+    def create_payment(package, user):
         return Payment.objects.create(amount=package.price, user=user)
 
     @classmethod
