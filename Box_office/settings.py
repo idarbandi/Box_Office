@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'Account.apps.AccountConfig',
     'shipping.apps.ShippingConfig',
     'financial.apps.FinancialConfig',
-    'package.apps.PackageConfig'
+    'package.apps.PackageConfig',
+    'purchase.apps.PurchaseConfig'
 ]
 
 MIDDLEWARE = [

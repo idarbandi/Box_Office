@@ -50,7 +50,8 @@ class Gateway(models.Model):
 
 class Payment(models.Model):
     """ 💸 """
-    invoice_number = models.UUIDField(max_length=150, verbose_name=_('invoice number'), default=uuid.uuid4())
+    invoice_number = models.UUIDField(max_length=150, verbose_name=_('invoice number'),
+                                      unique=True, default=uuid.uuid4())
     amount = models.IntegerField(verbose_name=_('amount'))
     gateway = models.ForeignKey(
         Gateway, related_name='payments', verbose_name=_('gateway'), on_delete=models.CASCADE, null=True
