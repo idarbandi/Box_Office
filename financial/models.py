@@ -77,11 +77,17 @@ class Payment(models.Model):
     def get_data(self):
         data = dict(merchant_id=self.gateway.auth_data,
                     amount=self.amount,
-                    detail='No detail',
+                    detail='خرید اشتراک',
                     user_email=self.user.email,
                     user_phone_number='0912256487',
-                    callback='http://127.0.0.1:8000/financial/verify')
+                    callback='http://127.0.0.1:8000/MovieCrawl/movie/account/financial/verify/')
         return data
+
+    def verify(self, data):
+        handler = self.gateway.get_verify_handler()
+        if not self.is_paid and handler is not None:
+            handler(**data)
+        return self.is_paid
 
     @property
     def bank_page(self):

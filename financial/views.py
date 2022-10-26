@@ -41,3 +41,20 @@ class PostGateway(View):
         gateways = Gateway.objects.filter(is_enable=True)
 
         return render(request, 'pay.html', {"payment": payment, "gateways": gateways})
+
+
+class verify(View):
+    template_name = 'callback.html'
+
+    def get(self, request, *args, **kwargs):
+        Authority = request.GET.get('Authority')
+        try:
+            payment = Payment.objects.get(authority=Authority)
+        except Payment.DoesNotExist:
+            raise Http404
+        callback_handler = payment.gateway.get_verify_handler()
+
+        payment.is_paid, ref_id = callback_handler(merchant_id=payment.gateway.auth_data, amount=payment.amount,
+                                                   authority=payment.authority)
+        payment.save()
+        return render(request, self.template_name, {'is_paid': payment.is_paid, 'ref_id': ref_id})

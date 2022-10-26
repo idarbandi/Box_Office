@@ -132,7 +132,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 ZARINPAL = {
     'gateway_request_url': 'https://sandbox.zarinpal.com/pg/services/WebGate/wsdl',
-    'callback_request_url': 'http://127.0.0.1:8000/finance/verify',
+    'callback_request_url': 'http://127.0.0.1:8000/MovieCrawl/movie/account/financial/verify',
     'merchant_id': 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX',
 }
 

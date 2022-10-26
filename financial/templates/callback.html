@@ -7,14 +7,14 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="{% static 'financial/pay.css' %}" />
-  <title>{{request.user}}</title>
+  <title>{{is_paid}}</title>
   {% endblock %} {%block content%}
   <main>
     <section>
       {%if is_paid%}
       پرداخت موفقیت آمیزبود
       {%else%}
-      پرداخت موقثیت آمیز نبود
+      پرداخت با خطا مواجه شد
       {%endif%}
     </section>
   </main>
